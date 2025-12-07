@@ -27,9 +27,15 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom CSS for better styling
+# Custom CSS for better styling + hide Streamlit branding
 st.markdown("""
 <style>
+    /* Hide Streamlit branding */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    .stDeployButton {display: none;}
+
     .main-header {
         font-size: 2.5rem;
         font-weight: 700;
@@ -59,18 +65,6 @@ st.markdown("""
     .stTabs [data-baseweb="tab"] {
         padding: 10px 20px;
         border-radius: 5px;
-    }
-    .footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #f0f2f6;
-        padding: 10px;
-        text-align: center;
-        font-size: 0.85rem;
-        color: #666;
-        border-top: 1px solid #ddd;
     }
 </style>
 """, unsafe_allow_html=True)
