@@ -411,40 +411,19 @@ def main():
         if df is not None:
             st.markdown(f"**{len(df):,}** patents ready to export")
 
-            col1, col2 = st.columns(2)
+            export_df = df.drop(columns=['Source', 'ExtractedDate'], errors='ignore')
 
-            with col1:
-                st.markdown("#### CurrentIPs Format")
-                st.markdown("Standard format for Innolight (without internal tracking columns)")
+            buffer = io.BytesIO()
+            export_df.to_excel(buffer, index=False)
+            buffer.seek(0)
 
-                export_df = df.drop(columns=['Source', 'ExtractedDate'], errors='ignore')
-
-                buffer = io.BytesIO()
-                export_df.to_excel(buffer, index=False)
-                buffer.seek(0)
-
-                st.download_button(
-                    "📥 Download CurrentIPs.xlsx",
-                    data=buffer,
-                    file_name=f"CurrentIPs_{datetime.now().strftime('%Y%m%d')}.xlsx",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    type="primary"
-                )
-
-            with col2:
-                st.markdown("#### Full Export")
-                st.markdown("Includes all columns with source and extraction date")
-
-                buffer2 = io.BytesIO()
-                df.to_excel(buffer2, index=False)
-                buffer2.seek(0)
-
-                st.download_button(
-                    "📥 Download Full Export.xlsx",
-                    data=buffer2,
-                    file_name=f"Patents_Full_{datetime.now().strftime('%Y%m%d')}.xlsx",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
+            st.download_button(
+                "📥 Download IPs_QRDI.xlsx",
+                data=buffer,
+                file_name="IPs_QRDI.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                type="primary"
+            )
         else:
             st.info("No data to export. Run an update first.")
 
